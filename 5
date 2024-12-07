@@ -1,0 +1,92 @@
+TIER 1:HTML
+-----------
+<html>
+<head>
+<title>The servlet-jdbc Example</title>
+<body>
+<form name="empform" method="post" action="EmpServlet">
+<h1 align="center"> The ABC company</h1>
+<br>
+<p><b>Enter the details of an employee</p>
+<br>
+Name:<input name="empname" type="textbox"><br>
+SSN:<input name="empno" type="textbox"><br>
+Qualification:<input type="des" type="textbox"><br>
+Dept.No:<input name="sal" type="textbox">
+<br>
+<br>
+<input type=submit value="submit">
+</form>
+</body>
+</html>
+TIER 2:SERVLET
+--------------
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletExceptio;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+@WebServlet(urlPatterns = {"/NewServlet"})
+public class NewServlet extends HttpServlet {
+ 
+ protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+ throws ServletException, IOException, SQLException {
+ response.setContentType("text/html;charset=UTF-8");
+ try (PrintWriter out = response.getWriter()) {
+ /* TODO output your page here. You may use following sample code. */
+ Statement stmt=null;
+Connection con=null;
+ResultSet rs=null;
+try
+{
+ 
+Class.forName("org.apache.derby.jdbc.ClientDriver");
+con=DriverManager.getConnection("jdbc:derby://localhost:1527/sample","app","app");
+}
+catch(Exception e) {
+ System.out.println("ss"+e);
+}
+String empname=request.getParameter("empname");
+String empno=request.getParameter("empno");
+String des=request.getParameter("des");
+String sal=request.getParameter("sal");
+response.setContentType("text/html");
+try
+{
+ 
+stmt=con.createStatement();
+stmt.executeUpdate("insert into emp values('"+empname+"',"+empno+",'"+des+"',"+sal+")");
+rs=stmt.executeQuery("select * from emp");
+out.println("<head>"); 
+out.println("</head>");
+out.println("<body bgcolor=cyan>");
+out.println("<center>");
+while(rs.next())
+{
+ 
+empname=rs.getString("empname");
+empno=rs.getString("empno");
+des =rs.getString("des");
+sal=rs.getString("sal");
+out.println("Empname:"+empname+"<br>Empno:"+empno+"<br>Designation:"+des+"<br>Salary:"+sal)
+;
+out.println("</body>");
+out.println("</html>");
+}
+}
+catch(Exception e)
+{
+}
+}
+ 
+ 
+TIER 3 : DATABASE
+------------------
+create table emp(empname varchar(20),empno int,des varchar(30),sal int)
+insert into emp values('vijay',1001,'Manager',20000)
+select * from emp
