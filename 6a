@@ -1,0 +1,128 @@
+<html>
+<head>
+<title>Online Exam Client</title>
+<style type="text/cse">
+body{background-color:black;font-family:courier;color:blue}
+</style>
+</head>
+<body bgcolor="blue">
+<h2 style="text-align:center">ONLINE EXAMINATION</h2>
+
+<h3>Answer the following questions(5 marks for each correct answer}</h3>
+<hr/>
+<form action="NewServlet1">
+1.All computers must have<br/>
+<input type="radio" name="ans1" value="Operating System">Operating System
+<input type="radio" name="ans1" value="Application Software">Application Software
+<input type="radio" name="ans1" value="CD Drive">CD Drive
+<input type="radio" name="ans1" value="Microsoft word">Microsoft word
+<br/>
+<br/>
+2.The term PC means <br/>
+<input type="radio" name="ans2" value="Private Computer">Private Computer
+<input type="radio" name="ans2" value="Professional Computer">Professional Computer
+<input type="radio" name="ans2" value="personal Computer">Personal Computer
+<input type="radio" name="ans2" value="Personal Calculator">Personal Calculator
+<br/><br/>
+3.C was development by7<br/>
+<input type="radio" name="ans3" value="Dennis Ritchie">Dennis Ritchie
+<input type="radio" name="ans3" value="Stroustrup">Stroustrup
+<input type="radio" name="ans3" value="David Ritchie">David Ritchie
+<input type="radio" name="ans3" value="Charles Babbage">Charles Babbage
+<br/>
+<br/>
+<input type="submit" value="Check your Result"/>
+</form>
+</body>
+</html>
+
+NewServlet1
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.*;
+import java.util.Properties;
+import javax.servlet.ServletException;
+import javax.servlet.http.*;
+public class NewServlet1 extends HttpServlet {
+@Override
+protected void doGet(HttpServletRequest request, HttpServletResponse response)
+throws ServletException, IOException {
+response.setContentType("text/html;charset=UTF-8");
+PrintWriter out = response.getWriter();
+try {
+Statement st;
+Connection con;
+String str1=request.getParameter("ans1");
+String str2=request.getParameter("ans2");
+String str3=request.getParameter("ans3");
+int mark=0;
+Class.forName("org.apache.derby.jdbc.ClientDriver");
+Properties p=new Properties();
+p.put("user","root");
+p.put("password","root");
+con=DriverManager.getConnection("jdbc:derby://localhost:1527/Online",p);
+st=con.createStatement();
+Statement stmt = con.createStatement();
+
+ResultSet rs = stmt.executeQuery("SELECT * FROM exam3");
+int i=1;
+while(rs.next()==true)
+{
+if(i==1)
+{
+String dbans1=rs.getString(1);
+if(str1.equals(dbans1))
+{
+mark=mark+5;
+} }
+if(i==2)
+{
+String dbans2=rs.getString(1);
+if(str2.equals(dbans2))
+{
+mark=mark+5;
+} }
+if(i==3)
+{
+String dbans3=rs.getString(1);
+if(str3.equals(dbans3))
+{
+mark=mark+5;
+}
+}
+i++;
+}
+System.out.println(str1);
+35
+System.out.println(str2);
+System.out.println(str3);
+request.setAttribute("data",mark);
+request.getRequestDispatcher("/newjsp.jsp").forward(request,response);
+} catch(Exception e)
+{
+out.close();
+}
+}
+}
+Newjsp.jsp
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<html>
+<head>
+<title>JSP Page</title>
+</head>
+<body>
+<%
+int mark=(Integer)request.getAttribute("data");
+if(mark>=10)
+{
+out.println("Your Mark Is:"+mark);
+out.println("Congratulations....! You Are Eligible For The Next Round. ..");
+}
+else
+{
+out.println("Your Mark is:"+mark);
+out.println("Sorry....!! You Are not Eligible For The Next Round. ");
+}
+%>
+</body>
+</html>
