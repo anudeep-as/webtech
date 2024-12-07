@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>Inline CSS</title>
+</head>
+<body>
+ <p style="color:#009900; 
+ font-size:50px; 
+ font-style:italic; 
+ text-align:center;">
+ Welcome to CAHCET
+ </p>
+</body>
+</html>
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {background-color: powderblue;}
+h1 {color: blue;}
+p {color: red;}
+</style>
+</head>
+<body>
+<h1>This is a heading</h1>
+<p>This is a paragraph.</p>
+</body>
+</html>
+Sel-demo.css
+h1,h2,h3,h4,h5,h6{background-color:purple}
+*{font-weight:bold}
+#p1,#p3{background-color:aqua}
+#p4, .takeNote{font-style:italic}
+span.special{font-size:x-large}
+a:link{color:black}
+a:visited{color:yellow}
+a:hover{color:green}
+a:active{color:red}
+ul span{font-variant:small-caps}
+ul ol li{letter-spacing:1em}
+sel-demo.html
+<html>
+<head>
+<title>
+Selectors.html
+</title>
+<link rel="stylesheet" type="text/css" href="sel-demo.css"/>
+</head>
+<body>
+<h1>Selector Tests</h1>
+<p id="p1" class="takeNote">
+Paragraph with id="p1" and class="takeNote".
+</p>
+<p id="p2" class="special">
+Second paragraph. <span class="takeNote special cool">This span
+belongs to classes takeNote, special, and cool.</span>
+<ul>
+<li>Span's within this list are in <span>small-cap</span>
+style.</li>
+<ol>
+<li>This item spaces letters.</li>
+</ol>
+</ul>
+</p>
+<p id="p3">
+Third paragraph(id="p3")contains a
+<a href="http://www.example.net">hyperlink</a>.
+<ol>
+<li>This item contains a span but does not display it in
+<span>small caps</span>,nor does it space letters.</li>
+</ol>
+</p>
+</body>
+</html>
