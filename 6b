@@ -1,0 +1,63 @@
+index.html
+<head>
+<title>Three Tier Application</title>
+<style type="text/css">
+body{color:blue;font-family:courier;text-align:center}
+</style>
+</head>
+<body>
+<h2>EXAMINATION RESULT</h2><hr/>
+<form name="f1" method="GET" action="marklist.jsp">
+Enter Your Reg.No:
+<input type="text" name="rno"/><br/><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;
+<input type="submit" value="SUBMIT"/>
+</form>
+</body>
+</html>
+39
+<html>
+Marklist.jsp
+<%@page import="java.util.Properties"%>
+<%@page contentType="text/html" language="java" import="java.sql.*"%>
+<html>
+<head>
+<title>Three Tier Application</title>
+<style type="text/css">
+body{color:blue;font-family:courier;text-align:center}
+</style>
+</head>
+<body>
+<h2>EXAMINATION RESULT</h2><hr/>
+<%
+String str=request.getParameter("rno");
+Class.forName("org.apache.derby.jdbc.ClientDriver");
+Properties p=new Properties();
+p.put("user","root");
+p.put("password","root");
+Connection con=DriverManager.getConnection("jdbc:derby://localhost:1527/db8",p);
+Statement stmt=con.createStatement();
+ResultSet rs=stmt.executeQuery( " Select * FROM mark WHERE rno ='"+str+"'");
+while(rs.next())
+{
+%>
+Register No:<%=rs.getString(1)%><br/>
+Name:<%=rs.getString(2)%><br/>
+<table border="1">
+40
+<th>SUBJECT</th><th>Mark</th>
+<tr><td>NPM</td><td><%=rs.getString(3)%></td></tr>
+<tr><td>OOAD</td><td><%=rs.getString(4)%></td></tr>
+<tr><td>CNS</td><td><%=rs.getString(5)%></td></tr>
+<tr><td>Es</td><td><%=rs.getString(6)%></td></tr>
+<tr><td>Web Technology</td><td><%=rs.getString(7)%></td></tr>
+<tr><td>UID</td><td><%=rs.getString(8)%></td></tr>
+</table>
+<%
+}
+%>
+<br/>
+<a href="index.jsp">Back</a>
+</body>
+</html>
